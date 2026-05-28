@@ -430,6 +430,8 @@ img {
 .burst-shard,
 .burst-spark {
   position: absolute;
+  left: 0;
+  top: 0;
   pointer-events: none;
   transform: translate(-50%, -50%);
 }
@@ -438,7 +440,6 @@ img {
   z-index: 5;
   width: 0;
   height: 0;
-  contain: layout paint;
 }
 
 .burst-shock {
