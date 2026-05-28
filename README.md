@@ -14,7 +14,7 @@ A retro-style link-matching puzzle game available on Web and Android.
 
 Download the latest APK from GitHub Releases:
 
-[Latest Release](https://github.com/intelKANG/pokemon-link/releases/latest)
+[最新版本 / Latest Release](https://github.com/intelKANG/pokemon-link/releases/latest)
 
 ## 游戏特色 / Features
 
@@ -48,14 +48,24 @@ Download the latest APK from GitHub Releases:
 
 ## 构建 / Build
 
+安卓版本可通过以下脚本重新打包：
+
+The Android version can be rebuilt with:
+
 ```bash
 ./android-apk/build_apk.sh
 ```
+
+该脚本会将网页版游戏打包进 Android WebView，并生成 APK 文件。
 
 The script packages the shared web game into an Android WebView APK.
 
 ## 声明 / Notice
 
+这是一个用于个人学习和娱乐的非商业同人项目。
+
 This is a non-commercial fan project for personal learning and entertainment.
+
+Pokemon / 宝可梦相关名称、角色和图片归其权利方所有。本项目与 Nintendo、Game Freak、Creatures 或 The Pokemon Company 无关联，也未获得其赞助或背书。
 
 Pokemon-related names, characters, and images belong to their respective rights holders. This project is not affiliated with, endorsed by, or sponsored by Nintendo, Game Freak, Creatures, or The Pokemon Company.
