@@ -52,7 +52,7 @@ if [ ! -f "$KEYSTORE" ]; then
     -keyalg RSA \
     -keysize 2048 \
     -validity 10000 \
-    -dname "CN=Bubble Battle Debug,O=Codex,C=CN"
+    -dname "CN=Pokemon Link Debug,O=Codex,C=CN"
 fi
 
 "$BUILD_TOOLS/zipalign" -f -p 4 "$OUT/unsigned.apk" "$OUT/aligned.apk"

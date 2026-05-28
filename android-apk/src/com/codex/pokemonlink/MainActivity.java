@@ -1,4 +1,4 @@
-package com.codex.bubblebattle;
+package com.codex.pokemonlink;
 
 import android.app.Activity;
 import android.graphics.Color;
