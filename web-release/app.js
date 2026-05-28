@@ -1,6 +1,8 @@
 (() => {
   const boardEl = document.querySelector("#board");
   const linkLayer = document.querySelector("#link-layer");
+  const fxLayer = document.querySelector("#fx-layer");
+  const boardWrapEl = document.querySelector(".board-wrap");
   const overlay = document.querySelector("#overlay");
   const overlayKicker = document.querySelector("#overlay-kicker");
   const overlayTitle = document.querySelector("#overlay-title");
@@ -173,14 +175,14 @@
   };
 
   const levelRules = [
-    { key: "modeStatic", mode: "static", icons: 8, timeBonus: 20 },
-    { key: "modeDown", mode: "down", icons: 9, timeBonus: 42 },
-    { key: "modeLeft", mode: "left", icons: 10, timeBonus: 46 },
-    { key: "modeRight", mode: "right", icons: 10, timeBonus: 46 },
-    { key: "modeUp", mode: "up", icons: 11, timeBonus: 46 },
-    { key: "modeSplitVertical", mode: "splitVertical", icons: 11, timeBonus: 58 },
-    { key: "modeSplitHorizontal", mode: "splitHorizontal", icons: 12, timeBonus: 58 },
-    { key: "modeGather", mode: "gather", icons: 12, timeBonus: 64 },
+    { key: "modeStatic", mode: "static", icons: 8, timeBonus: 12 },
+    { key: "modeDown", mode: "down", icons: 9, timeBonus: 22 },
+    { key: "modeLeft", mode: "left", icons: 10, timeBonus: 24 },
+    { key: "modeRight", mode: "right", icons: 10, timeBonus: 24 },
+    { key: "modeUp", mode: "up", icons: 11, timeBonus: 24 },
+    { key: "modeSplitVertical", mode: "splitVertical", icons: 11, timeBonus: 32 },
+    { key: "modeSplitHorizontal", mode: "splitHorizontal", icons: 12, timeBonus: 32 },
+    { key: "modeGather", mode: "gather", icons: 12, timeBonus: 36 },
   ];
 
   const difficulties = {
@@ -188,7 +190,7 @@
       label: "Easy",
       landscape: { rows: 7, cols: 12 },
       portrait: { rows: 10, cols: 6 },
-      time: 160,
+      time: 125,
       hints: 4,
       shuffles: 3,
     },
@@ -196,7 +198,7 @@
       label: "Normal",
       landscape: { rows: 8, cols: 12 },
       portrait: { rows: 12, cols: 6 },
-      time: 145,
+      time: 105,
       hints: 3,
       shuffles: 2,
     },
@@ -204,7 +206,7 @@
       label: "Hard",
       landscape: { rows: 8, cols: 14 },
       portrait: { rows: 12, cols: 8 },
-      time: 125,
+      time: 90,
       hints: 2,
       shuffles: 1,
     },
@@ -228,14 +230,14 @@
   function calculateRoundTime(config, rule, rows, cols) {
     const pairs = (rows * cols) / 2;
     const perPair = {
-      easy: 5.2,
-      normal: 4.8,
-      hard: 4.45,
+      easy: 3.15,
+      normal: 2.85,
+      hard: 2.55,
     }[state.difficulty];
-    const cyclePressure = rule.cycle * 8;
+    const cyclePressure = rule.cycle * 10;
     const baseline = pairs * perPair + rule.timeBonus - cyclePressure;
-    const minimum = state.difficulty === "easy" ? 150 : state.difficulty === "normal" ? 135 : 120;
-    const maximum = config.time + pairs * 3;
+    const minimum = state.difficulty === "easy" ? 95 : state.difficulty === "normal" ? 80 : 65;
+    const maximum = config.time + pairs * 1.1;
     return Math.round(Math.max(minimum, Math.min(maximum, baseline)));
   }
 
@@ -310,6 +312,19 @@
       state.level = 0;
       state.score = 0;
     }
+    prepareRoundState();
+    state.selected = null;
+    state.running = true;
+    state.paused = false;
+    hideBoardUntilFit();
+    clearEffects();
+    buildBoard();
+    render();
+    hideOverlay();
+    startTimer();
+  }
+
+  function prepareRoundState() {
     const size = chooseSize();
     const config = difficulties[state.difficulty];
     const rule = currentLevelRule();
@@ -320,14 +335,6 @@
     state.hints = Math.max(1, config.hints - Math.floor(state.level / 5));
     state.shuffles = Math.max(1, config.shuffles - Math.floor(state.level / 6));
     state.left = state.rows * state.cols;
-    state.selected = null;
-    state.running = true;
-    state.paused = false;
-    buildBoard();
-    render();
-    fitBoard();
-    hideOverlay();
-    startTimer();
   }
 
   function buildBoard() {
@@ -405,6 +412,20 @@
     }
     updateHud();
     fitBoard();
+    revealBoardAfterFit();
+  }
+
+  function hideBoardUntilFit() {
+    if (boardWrapEl) boardWrapEl.classList.remove("is-layout-ready");
+  }
+
+  function clearEffects() {
+    if (fxLayer) fxLayer.innerHTML = "";
+  }
+
+  function revealBoardAfterFit() {
+    if (!boardWrapEl) return;
+    requestAnimationFrame(() => boardWrapEl.classList.add("is-layout-ready"));
   }
 
   function updateHud() {
@@ -532,6 +553,8 @@
   }
 
   function removePair(a, b) {
+    burstAt(a);
+    burstAt(b);
     state.board[a.row][a.col] = 0;
     state.board[b.row][b.col] = 0;
     state.left -= 2;
@@ -729,6 +752,7 @@
   function useShuffle() {
     if (!state.running || state.paused || state.shuffles <= 0) return;
     state.shuffles -= 1;
+    clearEffects();
     shuffleRemaining();
     makeSolvable();
     clearSelection();
@@ -784,6 +808,53 @@
     setTimeout(() => {
       linkLayer.innerHTML = "";
     }, 360);
+  }
+
+  function burstAt(point) {
+    if (!fxLayer) return;
+    const center = boardPoint(point);
+    const effect = document.createElement("span");
+    effect.className = "match-burst";
+    effect.style.left = `${center.x}px`;
+    effect.style.top = `${center.y}px`;
+
+    const shock = document.createElement("span");
+    shock.className = "burst-shock";
+    effect.append(shock);
+
+    const flash = document.createElement("span");
+    flash.className = "burst-flash";
+    effect.append(flash);
+
+    const shardColors = ["#fff1cc", "#f4d3a2", "#c47a43", "#8e5a37", "#ff8a2a"];
+    for (let index = 0; index < 14; index += 1) {
+      const shard = document.createElement("span");
+      const angle = (Math.PI * 2 * index) / 14 + (Math.random() - 0.5) * 0.42;
+      const distance = 24 + Math.random() * 34;
+      shard.className = "burst-shard";
+      shard.style.setProperty("--x", `${Math.cos(angle) * distance}px`);
+      shard.style.setProperty("--y", `${Math.sin(angle) * distance - 8}px`);
+      shard.style.setProperty("--r", `${Math.round(Math.random() * 220 - 110)}deg`);
+      shard.style.setProperty("--s", `${0.72 + Math.random() * 0.55}`);
+      shard.style.setProperty("--d", `${Math.random() * 70}ms`);
+      shard.style.background = shardColors[index % shardColors.length];
+      effect.append(shard);
+    }
+
+    for (let index = 0; index < 8; index += 1) {
+      const spark = document.createElement("span");
+      const angle = (Math.PI * 2 * index) / 8 + Math.random() * 0.24;
+      const distance = 18 + Math.random() * 44;
+      spark.className = "burst-spark";
+      spark.style.setProperty("--x", `${Math.cos(angle) * distance}px`);
+      spark.style.setProperty("--y", `${Math.sin(angle) * distance - 12}px`);
+      spark.style.setProperty("--r", `${Math.round(Math.random() * 180)}deg`);
+      spark.style.setProperty("--d", `${Math.random() * 90}ms`);
+      effect.append(spark);
+    }
+
+    fxLayer.append(effect);
+    setTimeout(() => effect.remove(), 760);
   }
 
   function ensureAudio() {
@@ -1007,6 +1078,8 @@
   window.addEventListener("resize", () => {
     const size = chooseSize();
     if (size.rows !== state.rows || size.cols !== state.cols) {
+      hideBoardUntilFit();
+      clearEffects();
       state.rows = size.rows;
       state.cols = size.cols;
       buildBoard();
@@ -1016,6 +1089,9 @@
     fitBoard();
   });
 
+  hideBoardUntilFit();
+  clearEffects();
+  prepareRoundState();
   buildBoard();
   render();
   refreshStaticText();
