@@ -686,20 +686,26 @@ img {
 
   .top-panel {
     grid-template-columns: minmax(0, 1fr) auto;
-    gap: 6px;
-    padding: 8px 10px 6px;
+    gap: 4px 8px;
+    padding: 6px 8px 5px;
     border-bottom-color: rgba(255, 238, 150, 0.18);
-    overflow: hidden;
+    overflow: visible;
+  }
+
+  .top-actions {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
   }
 
   .brand {
-    gap: 7px;
+    gap: 6px;
     min-width: 0;
   }
 
   .brand img {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
   }
 
   .brand p {
@@ -707,15 +713,15 @@ img {
   }
 
   .brand h1 {
-    font-size: clamp(1.15rem, 5.4vw, 1.55rem);
+    font-size: clamp(1.06rem, 5vw, 1.38rem);
     white-space: nowrap;
   }
 
   .menu-bar {
     grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 5px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4px;
     width: 100%;
     max-width: 100%;
     overflow: visible;
@@ -724,8 +730,8 @@ img {
   .menu-toggle {
     width: 100%;
     min-width: 0;
-    min-height: 30px;
-    font-size: clamp(0.82rem, 3.7vw, 0.98rem);
+    min-height: 26px;
+    font-size: clamp(0.76rem, 3.4vw, 0.9rem);
     border-radius: 5px;
   }
 
@@ -747,9 +753,20 @@ img {
   }
 
   .language-toggle {
-    width: 30px;
-    height: 30px;
-    font-size: 0.92rem;
+    width: 26px;
+    height: 26px;
+    font-size: 0.82rem;
+  }
+
+  .language-popover {
+    position: fixed;
+    top: max(36px, env(safe-area-inset-top));
+    right: 8px;
+    left: auto;
+    min-width: 118px;
+    max-width: 150px;
+    z-index: 60;
+    transform: none;
   }
 
   .mobile-score {
@@ -894,6 +911,18 @@ img {
     min-height: 36px;
     margin-top: 12px;
     font-size: 1rem;
+  }
+}
+
+@media (orientation: portrait) and (max-width: 430px) {
+  .menu-bar {
+    gap: 3px;
+  }
+
+  .menu-toggle {
+    min-height: 24px;
+    font-size: clamp(0.68rem, 3.15vw, 0.82rem);
+    padding: 0 3px;
   }
 }
 
