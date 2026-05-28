@@ -56,7 +56,14 @@
 
           <div class="top-actions">
             <div class="menu language-menu">
-              <button class="language-toggle" type="button" data-menu="language-menu" aria-label="Language">🌐</button>
+              <button class="language-toggle" type="button" data-menu="language-menu" aria-label="Language">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M3 12h18"></path>
+                  <path d="M12 3c2.4 2.5 3.6 5.5 3.6 9s-1.2 6.5-3.6 9"></path>
+                  <path d="M12 3c-2.4 2.5-3.6 5.5-3.6 9s1.2 6.5 3.6 9"></path>
+                </svg>
+              </button>
               <div class="menu-popover language-popover" id="language-menu" hidden>
                 <button class="option-language is-active" type="button" data-language="system">跟随系统</button>
                 <button class="option-language" type="button" data-language="zh">中文</button>
