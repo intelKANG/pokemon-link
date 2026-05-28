@@ -54,6 +54,9 @@
       languageSystem: "跟随系统",
       languageZh: "中文",
       languageEn: "English",
+      optionGroupGame: "游戏",
+      optionGroupDifficulty: "难度",
+      optionGroupSound: "音效",
       score: "得分",
       level: "关卡",
       left: "剩余",
@@ -105,6 +108,9 @@
       languageSystem: "System",
       languageZh: "中文",
       languageEn: "English",
+      optionGroupGame: "Game",
+      optionGroupDifficulty: "Difficulty",
+      optionGroupSound: "Sound",
       score: "Score",
       level: "Level",
       left: "Left",
@@ -168,7 +174,7 @@
     board: [],
     timer: null,
     sound: true,
-    soundStyle: "classic",
+    soundStyle: "soft",
     difficulty: "easy",
     languagePreference: localStorage.getItem("pokemonLinkLanguage") || "system",
     audio: null,
@@ -278,6 +284,9 @@
     setText('[data-language="system"]', t("languageSystem"));
     setText('[data-language="zh"]', t("languageZh"));
     setText('[data-language="en"]', t("languageEn"));
+    setText('[data-option-group="game"]', t("optionGroupGame"));
+    setText('[data-option-group="difficulty"]', t("optionGroupDifficulty"));
+    setText('[data-option-group="sound"]', t("optionGroupSound"));
     document.querySelector(".options-card h2").textContent = t("menuOptions");
     const statLabels = document.querySelectorAll(".mini-stat span");
     if (statLabels[0]) statLabels[0].textContent = t("level");
@@ -812,49 +821,40 @@
 
   function burstAt(point) {
     if (!fxLayer) return;
+    const tile = getTile(point);
     const center = boardPoint(point);
     const effect = document.createElement("span");
-    effect.className = "match-burst";
+    effect.className = "tile-shatter";
     effect.style.left = `${center.x}px`;
     effect.style.top = `${center.y}px`;
+    effect.style.setProperty("--tile-image", tile?.querySelector("img") ? `url("${tile.querySelector("img").src}")` : "none");
 
-    const shock = document.createElement("span");
-    shock.className = "burst-shock";
-    effect.append(shock);
+    const pieces = [
+      [0, 0, -26, -24, -32],
+      [1, 0, 8, -30, 22],
+      [2, 0, 34, -12, 48],
+      [0, 1, -34, 4, -58],
+      [1, 1, -4, 15, 18],
+      [2, 1, 29, 12, 62],
+      [0, 2, -23, 35, 34],
+      [1, 2, 6, 42, -24],
+      [2, 2, 35, 31, 36],
+    ];
 
-    const flash = document.createElement("span");
-    flash.className = "burst-flash";
-    effect.append(flash);
-
-    const shardColors = ["#fff1cc", "#f4d3a2", "#c47a43", "#8e5a37", "#ff8a2a"];
-    for (let index = 0; index < 14; index += 1) {
+    pieces.forEach(([col, row, x, y, rotate], index) => {
       const shard = document.createElement("span");
-      const angle = (Math.PI * 2 * index) / 14 + (Math.random() - 0.5) * 0.42;
-      const distance = 24 + Math.random() * 34;
-      shard.className = "burst-shard";
-      shard.style.setProperty("--x", `${Math.cos(angle) * distance}px`);
-      shard.style.setProperty("--y", `${Math.sin(angle) * distance - 8}px`);
-      shard.style.setProperty("--r", `${Math.round(Math.random() * 220 - 110)}deg`);
-      shard.style.setProperty("--s", `${0.72 + Math.random() * 0.55}`);
-      shard.style.setProperty("--d", `${Math.random() * 70}ms`);
-      shard.style.background = shardColors[index % shardColors.length];
+      shard.className = "tile-piece";
+      shard.style.setProperty("--sx", `${col * 50}%`);
+      shard.style.setProperty("--sy", `${row * 50}%`);
+      shard.style.setProperty("--x", `${x + (Math.random() - 0.5) * 8}px`);
+      shard.style.setProperty("--y", `${y + (Math.random() - 0.5) * 8}px`);
+      shard.style.setProperty("--r", `${rotate + Math.round(Math.random() * 16 - 8)}deg`);
+      shard.style.setProperty("--d", `${index * 8}ms`);
       effect.append(shard);
-    }
-
-    for (let index = 0; index < 8; index += 1) {
-      const spark = document.createElement("span");
-      const angle = (Math.PI * 2 * index) / 8 + Math.random() * 0.24;
-      const distance = 18 + Math.random() * 44;
-      spark.className = "burst-spark";
-      spark.style.setProperty("--x", `${Math.cos(angle) * distance}px`);
-      spark.style.setProperty("--y", `${Math.sin(angle) * distance - 12}px`);
-      spark.style.setProperty("--r", `${Math.round(Math.random() * 180)}deg`);
-      spark.style.setProperty("--d", `${Math.random() * 90}ms`);
-      effect.append(spark);
-    }
+    });
 
     fxLayer.append(effect);
-    setTimeout(() => effect.remove(), 760);
+    setTimeout(() => effect.remove(), 360);
   }
 
   function ensureAudio() {
@@ -908,7 +908,7 @@
     document.querySelectorAll(".menu-popover").forEach((menu) => {
       if (menu !== except) menu.hidden = true;
     });
-    document.querySelectorAll(".menu-toggle").forEach((button) => {
+    document.querySelectorAll(".menu-toggle, .language-toggle").forEach((button) => {
       if (!except || button.dataset.menu !== except.id) button.classList.remove("is-open");
     });
   }
@@ -1013,7 +1013,7 @@
       if (action === "close") closeOptionsMenu();
     });
   });
-  document.querySelectorAll(".menu-toggle").forEach((button) => {
+  document.querySelectorAll(".menu-toggle, .language-toggle").forEach((button) => {
     button.addEventListener("click", (event) => {
       const portrait = window.innerHeight > window.innerWidth;
       if (button.classList.contains("mobile-pause") && portrait && state.running) {

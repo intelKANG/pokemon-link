@@ -47,14 +47,24 @@
                 <button class="difficulty" type="button" data-difficulty="normal">普通</button>
                 <button class="difficulty" type="button" data-difficulty="hard">困难</button>
                 <button id="sound" type="button">音效 开</button>
-                <button class="sound-style is-active" type="button" data-sound-style="classic">复古音色</button>
-                <button class="sound-style" type="button" data-sound-style="soft">柔和音色</button>
+                <button class="sound-style" type="button" data-sound-style="classic">复古音色</button>
+                <button class="sound-style is-active" type="button" data-sound-style="soft">柔和音色</button>
                 <button type="button" data-menu-command="rules">规则</button>
               </div>
             </div>
           </nav>
 
-          <div class="score-box"><strong id="score">0</strong><span>分</span></div>
+          <div class="top-actions">
+            <div class="menu language-menu">
+              <button class="language-toggle" type="button" data-menu="language-menu" aria-label="Language">🌐</button>
+              <div class="menu-popover language-popover" id="language-menu" hidden>
+                <button class="option-language is-active" type="button" data-language="system">跟随系统</button>
+                <button class="option-language" type="button" data-language="zh">中文</button>
+                <button class="option-language" type="button" data-language="en">English</button>
+              </div>
+            </div>
+            <div class="score-box"><strong id="score">0</strong><span>分</span></div>
+          </div>
         </header>
 
         <section class="hud" aria-label="游戏状态">
@@ -90,20 +100,32 @@
           <div id="options-panel" class="options-panel" hidden>
             <div class="options-card">
               <h2>选项</h2>
-              <div class="options-grid">
-                <button type="button" data-option-action="restart">重新开始</button>
-                <button type="button" data-option-action="next">下一关</button>
-                <button class="option-difficulty is-active" type="button" data-difficulty="easy">简单</button>
-                <button class="option-difficulty" type="button" data-difficulty="normal">普通</button>
-                <button class="option-difficulty" type="button" data-difficulty="hard">困难</button>
-                <button type="button" data-option-action="sound">音效 开</button>
-                <button class="option-sound-style is-active" type="button" data-sound-style="classic">复古音色</button>
-                <button class="option-sound-style" type="button" data-sound-style="soft">柔和音色</button>
-                <button class="option-language is-active" type="button" data-language="system">跟随系统</button>
-                <button class="option-language" type="button" data-language="zh">中文</button>
-                <button class="option-language" type="button" data-language="en">English</button>
-                <button type="button" data-option-action="rules">规则</button>
-                <button type="button" data-option-action="close">关闭</button>
+              <div class="options-sections">
+                <section class="option-section">
+                  <h3 data-option-group="game">游戏</h3>
+                  <div class="options-grid">
+                    <button type="button" data-option-action="restart">重新开始</button>
+                    <button type="button" data-option-action="next">下一关</button>
+                    <button type="button" data-option-action="rules">规则</button>
+                  </div>
+                </section>
+                <section class="option-section">
+                  <h3 data-option-group="difficulty">难度</h3>
+                  <div class="options-grid">
+                    <button class="option-difficulty is-active" type="button" data-difficulty="easy">简单</button>
+                    <button class="option-difficulty" type="button" data-difficulty="normal">普通</button>
+                    <button class="option-difficulty" type="button" data-difficulty="hard">困难</button>
+                  </div>
+                </section>
+                <section class="option-section">
+                  <h3 data-option-group="sound">音效</h3>
+                  <div class="options-grid">
+                    <button type="button" data-option-action="sound">音效 开</button>
+                    <button class="option-sound-style" type="button" data-sound-style="classic">复古音色</button>
+                    <button class="option-sound-style is-active" type="button" data-sound-style="soft">柔和音色</button>
+                  </div>
+                </section>
+                <button class="options-close" type="button" data-option-action="close">关闭</button>
               </div>
             </div>
           </div>

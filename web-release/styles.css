@@ -134,6 +134,40 @@ img {
   white-space: nowrap;
 }
 
+.top-actions {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 10px;
+  min-width: 0;
+}
+
+.language-toggle {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 230, 90, 0.42);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.language-toggle.is-open,
+.language-toggle:hover {
+  background: rgba(255, 230, 90, 0.18);
+}
+
+.language-popover {
+  left: auto;
+  right: 0;
+  min-width: 128px;
+  transform: none;
+}
+
 .menu-toggle.is-open,
 .menu-toggle:hover {
   background: rgba(255, 230, 90, 0.18);
@@ -424,11 +458,8 @@ img {
   transform: translate(-50%, -50%);
 }
 
-.match-burst,
-.burst-shock,
-.burst-flash,
-.burst-shard,
-.burst-spark {
+.tile-shatter,
+.tile-piece {
   position: absolute;
   left: 0;
   top: 0;
@@ -436,101 +467,39 @@ img {
   transform: translate(-50%, -50%);
 }
 
-.match-burst {
+.tile-shatter {
   z-index: 5;
   width: 0;
   height: 0;
 }
 
-.burst-shock {
-  width: calc(var(--tile) * 0.42);
-  height: calc(var(--tile) * 0.42);
-  border: 3px solid rgba(255, 232, 78, 0.95);
-  border-radius: 50%;
-  box-shadow:
-    0 0 12px rgba(255, 232, 78, 0.72),
-    inset 0 0 10px rgba(255, 255, 255, 0.65);
-  animation: burst-shock 360ms ease-out forwards;
-}
-
-.burst-flash {
-  width: calc(var(--tile) * 0.72);
-  height: calc(var(--tile) * 0.72);
+.tile-piece {
+  width: calc(var(--tile) / 3 + 1px);
+  height: calc(var(--tile) / 3 + 1px);
+  overflow: hidden;
   background:
-    linear-gradient(90deg, transparent 42%, rgba(255, 255, 255, 0.98) 48%, transparent 56%),
-    linear-gradient(0deg, transparent 42%, rgba(255, 246, 122, 0.9) 48%, transparent 56%);
-  filter: drop-shadow(0 0 7px rgba(255, 232, 78, 0.8));
-  animation: burst-flash 300ms ease-out forwards;
-}
-
-.burst-shard {
-  width: calc(var(--tile) * 0.14);
-  height: calc(var(--tile) * 0.1);
-  min-width: 6px;
-  min-height: 4px;
-  border: 1px solid rgba(94, 45, 18, 0.46);
-  border-radius: 1px;
+    var(--tile-image) var(--sx) var(--sy) / 300% 300% no-repeat,
+    linear-gradient(135deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.16) 45%, rgba(0, 0, 0, 0.08)),
+    #f1d0a4;
+  border: 1px solid rgba(142, 90, 55, 0.78);
   box-shadow:
-    inset 1px 1px 0 rgba(255, 255, 255, 0.5),
-    0 2px 5px rgba(0, 0, 0, 0.35);
-  animation: burst-shard 620ms cubic-bezier(0.1, 0.75, 0.16, 1) var(--d) forwards;
+    inset 1px 1px 0 rgba(255, 241, 204, 0.65),
+    inset -1px -1px 0 rgba(128, 70, 36, 0.5),
+    0 2px 4px rgba(0, 0, 0, 0.35);
+  animation: tile-piece-shatter 300ms cubic-bezier(0.04, 0.74, 0.16, 1) var(--d) forwards;
 }
 
-.burst-spark {
-  width: calc(var(--tile) * 0.12);
-  height: calc(var(--tile) * 0.12);
-  min-width: 5px;
-  min-height: 5px;
-  background: #fff04f;
-  clip-path: polygon(50% 0, 61% 36%, 100% 50%, 61% 64%, 50% 100%, 39% 64%, 0 50%, 39% 36%);
-  filter: drop-shadow(0 0 5px rgba(255, 240, 79, 0.9));
-  animation: burst-spark 540ms ease-out var(--d) forwards;
-}
-
-@keyframes burst-shock {
+@keyframes tile-piece-shatter {
   0% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(0.28);
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
   }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(2.1);
-  }
-}
-
-@keyframes burst-flash {
-  0% {
-    opacity: 0.95;
-    transform: translate(-50%, -50%) scale(0.35) rotate(0deg);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.15) rotate(42deg);
-  }
-}
-
-@keyframes burst-shard {
-  0% {
+  64% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(var(--s)) rotate(0deg);
   }
   100% {
     opacity: 0;
-    transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(0.35) rotate(var(--r));
-  }
-}
-
-@keyframes burst-spark {
-  0% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(0.8) rotate(0deg);
-  }
-  70% {
-    opacity: 0.88;
-  }
-  100% {
-    opacity: 0;
-    transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(0.12) rotate(var(--r));
+    transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(0.72) rotate(var(--r));
   }
 }
 
@@ -565,7 +534,7 @@ img {
 }
 
 .options-card {
-  width: min(380px, calc(100vw - 28px));
+  width: min(420px, calc(100vw - 28px));
   border: 2px solid rgba(255, 230, 90, 0.78);
   border-radius: 8px;
   background: rgba(18, 18, 18, 0.96);
@@ -580,13 +549,31 @@ img {
   font-size: 1.45rem;
 }
 
-.options-grid {
+.options-sections {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
+  gap: 12px;
 }
 
-.options-grid button {
+.option-section {
+  display: grid;
+  gap: 6px;
+}
+
+.option-section h3 {
+  margin: 0;
+  color: #ffe65a;
+  font-size: 0.82rem;
+  line-height: 1;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.options-grid button,
+.options-close {
   min-height: 40px;
   border: 1px solid rgba(255, 230, 90, 0.42);
   border-radius: 6px;
@@ -597,9 +584,14 @@ img {
 }
 
 .options-grid button.is-active,
-.options-grid button:hover {
+.options-grid button:hover,
+.options-close:hover {
   border-color: rgba(255, 230, 90, 0.85);
   background: rgba(255, 230, 90, 0.18);
+}
+
+.options-close {
+  width: 100%;
 }
 
 .dialog {
@@ -649,6 +641,10 @@ img {
     overflow-x: auto;
   }
 
+  .top-actions {
+    gap: 6px;
+  }
+
   .score-box {
     min-width: 58px;
   }
@@ -689,7 +685,7 @@ img {
   }
 
   .top-panel {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr) auto;
     gap: 6px;
     padding: 8px 10px 6px;
     border-bottom-color: rgba(255, 238, 150, 0.18);
@@ -716,6 +712,7 @@ img {
   }
 
   .menu-bar {
+    grid-column: 1 / -1;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 5px;
@@ -747,6 +744,12 @@ img {
 
   .score-box {
     display: none;
+  }
+
+  .language-toggle {
+    width: 30px;
+    height: 30px;
+    font-size: 0.92rem;
   }
 
   .mobile-score {
