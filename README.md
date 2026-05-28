@@ -44,7 +44,7 @@ Download the latest APK from GitHub Releases:
 ## 版本 / Version
 
 - Web: 2.3
-- Android: 2.2
+- Android: 2.3
 
 ## 构建 / Build
 
