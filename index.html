@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>精灵连连看</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="game" aria-label="精灵连连看">
+        <header class="top-panel">
+          <div class="brand">
+            <img src="./assets/pokemon/25.png" alt="" />
+            <div>
+              <p>Pokemon Link</p>
+              <h1>精灵连连看</h1>
+            </div>
+          </div>
+
+          <nav class="menu-bar" aria-label="游戏菜单">
+            <div class="menu">
+              <button class="menu-toggle mobile-pause" type="button" data-menu="game-menu">暂停</button>
+              <div class="menu-popover" id="game-menu" hidden>
+                <button id="new-game" type="button">重新开始</button>
+                <button id="next-level" type="button">下一关</button>
+                <button id="pause" type="button">暂停</button>
+              </div>
+            </div>
+            <div class="menu">
+              <button class="menu-toggle mobile-hint" type="button" data-menu="help-menu">提示</button>
+              <div class="menu-popover" id="help-menu" hidden>
+                <button id="hint" type="button">提示 <strong id="hint-left">4</strong></button>
+                <button id="show-rules" type="button">规则</button>
+              </div>
+            </div>
+            <div class="menu">
+              <button class="menu-toggle mobile-shuffle" type="button" data-menu="shuffle-menu">洗牌</button>
+              <div class="menu-popover" id="shuffle-menu" hidden>
+                <button id="shuffle" type="button">洗牌 <strong id="shuffle-left">3</strong></button>
+              </div>
+            </div>
+            <div class="menu">
+              <button class="menu-toggle" type="button" data-menu="options-menu">选项</button>
+              <div class="menu-popover" id="options-menu" hidden>
+                <button class="difficulty is-active" type="button" data-difficulty="easy">简单</button>
+                <button class="difficulty" type="button" data-difficulty="normal">普通</button>
+                <button class="difficulty" type="button" data-difficulty="hard">困难</button>
+                <button id="sound" type="button">音效 开</button>
+                <button class="sound-style is-active" type="button" data-sound-style="classic">复古音色</button>
+                <button class="sound-style" type="button" data-sound-style="soft">柔和音色</button>
+                <button type="button" data-menu-command="rules">规则</button>
+              </div>
+            </div>
+          </nav>
+
+          <div class="score-box"><strong id="score">0</strong><span>分</span></div>
+        </header>
+
+        <section class="hud" aria-label="游戏状态">
+          <div class="class-card">
+            <span>Class</span>
+            <strong id="difficulty-label">Easy</strong>
+          </div>
+          <div class="mini-stat"><span>关卡</span><strong id="level">0</strong></div>
+          <div class="mini-stat"><span>剩余</span><strong id="left">0</strong></div>
+          <div class="mini-stat"><span>提示</span><strong id="hint-readout">4</strong></div>
+          <div class="mini-stat mobile-score"><span>得分</span><strong id="mobile-score">0</strong></div>
+          <div class="time-area">
+            <strong id="mode-label">不变化</strong>
+            <div class="time-shell"><div id="time-bar" class="time-bar"></div></div>
+            <span id="time">160</span>
+          </div>
+        </section>
+
+        <section class="board-panel">
+          <div class="board-wrap">
+            <svg id="link-layer" aria-hidden="true"></svg>
+            <div id="board" class="board" aria-label="连连看棋盘"></div>
+          </div>
+          <div id="overlay" class="overlay is-visible">
+            <div class="dialog">
+              <p id="overlay-kicker">准备开始</p>
+              <h2 id="overlay-title">寻找相同宝可梦</h2>
+              <p id="overlay-text">连接路径最多转两次，清空棋盘进入下一关。</p>
+              <button id="start" type="button">开始游戏</button>
+            </div>
+          </div>
+          <div id="options-panel" class="options-panel" hidden>
+            <div class="options-card">
+              <h2>选项</h2>
+              <div class="options-grid">
+                <button type="button" data-option-action="restart">重新开始</button>
+                <button type="button" data-option-action="next">下一关</button>
+                <button class="option-difficulty is-active" type="button" data-difficulty="easy">简单</button>
+                <button class="option-difficulty" type="button" data-difficulty="normal">普通</button>
+                <button class="option-difficulty" type="button" data-difficulty="hard">困难</button>
+                <button type="button" data-option-action="sound">音效 开</button>
+                <button class="option-sound-style is-active" type="button" data-sound-style="classic">复古音色</button>
+                <button class="option-sound-style" type="button" data-sound-style="soft">柔和音色</button>
+                <button class="option-language is-active" type="button" data-language="system">跟随系统</button>
+                <button class="option-language" type="button" data-language="zh">中文</button>
+                <button class="option-language" type="button" data-language="en">English</button>
+                <button type="button" data-option-action="rules">规则</button>
+                <button type="button" data-option-action="close">关闭</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+    <script src="./app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+.DS_Store
+
+# Android build outputs and local signing material
+android-apk/build/
+android-apk/debug.keystore
+*.idsig
+
+# Local temporary previews
+verification-screenshot.png
+
+# Old generated artifact from previous prototype
+跑跑唐.apk
