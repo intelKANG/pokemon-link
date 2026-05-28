@@ -1,34 +1,36 @@
 # 精灵连连看 / Pokemon Link
 
-复古连连看玩法的双端版本：网页版可以直接打开，安卓版已经打包成 APK。
+一款复古风格的连连看游戏，提供网页版和 Android 版本。
 
-A retro tile-matching link game for web and Android. The web version runs directly in the browser, and the Android version is packaged as an APK.
+A retro-style link-matching puzzle game available on Web and Android.
 
-## 试玩 / Play
+## 在线试玩 / Play Online
 
-- 网页版 / Web: open `index.html`, or publish `web-release` with GitHub Pages.
-- 安卓版 / Android: install `精灵连连看.apk` from the repository root.
+[https://intelkang.github.io/pokemon-link/](https://intelkang.github.io/pokemon-link/)
 
-## 当前版本 / Version
+## Android 下载 / Android Download
 
-- Web: official release
-- Android: 2.2
+最新 APK 可在 GitHub Releases 下载：
 
-## 玩法 / Gameplay
+Download the latest APK from GitHub Releases:
 
-- 经典连连看规则：连接路径最多转两次，消除相同小精灵。
-- 支持暂停、提示、洗牌、重新开始、下一关。
-- 关卡会逐步增加变化规则和难度，而不是只加快速度。
-- 支持中文 / English，默认跟随系统语言，也可以在选项里直接切换。
-- 网页端和安卓端共用同一套核心玩法。
+[Latest Release](https://github.com/intelKANG/pokemon-link/releases/latest)
 
-- Classic link-matching rules: connect two identical tiles with a path that turns no more than twice.
+## 游戏特色 / Features
+
+- 经典连连看规则：连接路径最多转两次，消除相同图标。
+- 支持暂停、提示、洗牌、重新开始和下一关。
+- 关卡包含不同的棋盘变化规则，难度逐步提升。
+- 支持中文和 English，默认跟随系统语言。
+- 网页版与 Android 版共享同一套核心玩法。
+
+- Classic link-matching rules: connect identical tiles with a path that turns no more than twice.
 - Includes pause, hint, shuffle, restart, and next-level controls.
-- Levels add board movement rules and difficulty over time instead of only increasing speed.
-- Supports Chinese and English, follows the system language by default, and can be switched in options.
-- The web and Android versions share the same core gameplay.
+- Levels use different board movement rules and gradually increase difficulty.
+- Supports Chinese and English, following the system language by default.
+- Web and Android versions share the same core gameplay.
 
-## 关卡变化 / Level Rules
+## 关卡规则 / Level Rules
 
 1. 不变化 / No Shift
 2. 向下移动 / Shift Down
@@ -39,29 +41,21 @@ A retro tile-matching link game for web and Android. The web version runs direct
 7. 左右分离 / Split Left and Right
 8. 向中聚拢 / Gather Inward
 
-## GitHub Pages 发布 / GitHub Pages
+## 版本 / Version
 
-推荐设置 / Recommended settings:
+- Web: 2.2
+- Android: 2.2
 
-- Branch: `main`
-- Folder: `/web-release`
-
-设置完成后，朋友打开 GitHub Pages 地址就能直接玩网页版。
-
-After GitHub Pages is enabled, friends can open the published URL and play the web version directly.
-
-## 重新打包 APK / Build APK
+## 构建 / Build
 
 ```bash
 ./android-apk/build_apk.sh
 ```
 
-脚本会把根目录的网页文件复制进 Android WebView 工程，并在根目录生成新的 `精灵连连看.apk`。
+The script packages the shared web game into an Android WebView APK.
 
-The script copies the root web files into the Android WebView project and generates a new `精灵连连看.apk` in the repository root.
+## 声明 / Notice
 
-## 说明 / Notice
+This is a non-commercial fan project for personal learning and entertainment.
 
-本项目使用的宝可梦相关图片素材仅用于个人学习、测试和非商业娱乐用途。Pokemon / 宝可梦相关名称和形象版权归其权利方所有。
-
-Pokemon-related names and images are used only for personal learning, testing, and non-commercial entertainment. Pokemon and related characters belong to their respective rights holders.
+Pokemon-related names, characters, and images belong to their respective rights holders. This project is not affiliated with, endorsed by, or sponsored by Nintendo, Game Freak, Creatures, or The Pokemon Company.
